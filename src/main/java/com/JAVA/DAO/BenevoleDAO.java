@@ -14,4 +14,5 @@ public interface BenevoleDAO extends UserDAO {
     List<Benevole> getAllBenevoles();
     List<AdminAssociation> loadAssociations(int benevoleId);
 	void updateBenevole(Benevole benevole) throws DAOException;
+	void addAssociationToBenevole(Benevole benevole, AdminAssociation association);
 }

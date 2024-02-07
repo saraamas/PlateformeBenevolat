@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.JAVA.Beans.AdminAssociation;
 import com.JAVA.Beans.Benevole;
 import com.JAVA.Beans.Candidature;
 import com.JAVA.Beans.Event;
@@ -14,9 +15,13 @@ import com.JAVA.Beans.Event;
 
 public class CandidatureDAOImpl implements CandidatureDAO {
     private DAOFactory daoFactory;
-
+    private BenevoleDAO benevoleDAO;
+    private AdminAssociationDAO adminAssociationDAO;
+    
 	public CandidatureDAOImpl(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
+        this.benevoleDAO=DAOFactory.getInstance().getBenevoleDAO();
+        this.adminAssociationDAO=DAOFactory.getInstance().getAdminAssociationDAO();
 	}
 	
 	// Helper method to convert a ResultSet row to a Candidature object
@@ -40,15 +45,17 @@ public class CandidatureDAOImpl implements CandidatureDAO {
 	}
 	
 	public void traiterCandidature(Candidature candidature, String decision) {
-        // Assume que decision peut être "accepte" ou "refuse"
-        if ("accepte".equals(decision) || "refuse".equals(decision)) {
-            candidature.changerStatut(decision);
-            updateCandidature(candidature); // Méthode d'update dans le DAO
-        } else {
-            // Logique de gestion d'une décision non valide
-            System.out.println("Décision non valide : " + decision);
-        }
-    }
+		 // Assume que decision peut être "accepte" ou "refuse"
+	    if ("accepte".equals(decision) || "refuse".equals(decision)) {
+	        candidature.changerStatut(decision);
+	        updateCandidature(candidature); // Méthode d'update dans le DAO
+
+
+	    } else {
+	        // Logique de gestion d'une décision non valide
+	        System.out.println("Décision non valide : " + decision);
+	    }
+   }
 
 
 

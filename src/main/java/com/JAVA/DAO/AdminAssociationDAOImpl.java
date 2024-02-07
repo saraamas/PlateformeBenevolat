@@ -38,9 +38,7 @@ public class AdminAssociationDAOImpl extends UserDAOImpl implements AdminAssocia
 	        // adminAssociation.setEmail(resultSet.getString("email"));
 	        // adminAssociation.setMotDePasse(resultSet.getString("motDePasse"));
 	        // adminAssociation.setRole(User.UserRole.valueOf(resultSet.getString("role")));
-	        
-	        List<Benevole> benevoles = loadBenevoles(adminAssociation.getIdUtilisateur());
-	        adminAssociation.setAdherents(benevoles);
+
 	        return adminAssociation;
 	    }
 	    
@@ -66,7 +64,7 @@ public class AdminAssociationDAOImpl extends UserDAOImpl implements AdminAssocia
 
 	        return benevoles;
 	    }
-
+	    
 	    
 	    private static PreparedStatement initRequestPrepare(Connection connection, String sql, Object... objects)
 	            throws SQLException {

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.List;
 
 import com.JAVA.Beans.AdminAssociation;
@@ -54,24 +55,29 @@ public class AvisServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	try {
-    		int eventId = Integer.parseInt(request.getParameter("eventId"));
+    	 try {
+             // Récupérer l'utilisateur depuis la session ou toute autre source de données
+             User user = (User) request.getSession().getAttribute("user");
 
-            // Récupérer les détails de l'événement et les avis
-            Event event = eventDAO.getEventById(eventId);
-            List<Avis> avisList = avisDAO.getAvisByEvent(eventId);
+             if (user != null) {
+                 int eventId = Integer.parseInt(request.getParameter("eventId"));
 
-            // Définir les attributs pour JSP
-            request.setAttribute("event", event);
-            request.setAttribute("avisList", avisList);
-            // Créer une instance de l'interface fonctionnelle
-            UserNameGetter userNameGetter = this::getUserName;
+                 // Récupérer les détails de l'événement et les avis
+                 Event event = eventDAO.getEventById(eventId);
+                 List<Avis> avisList = avisDAO.getAvisByEvent(eventId);
 
-            // Ajouter la méthode getUserName à la requête pour y accéder depuis la JSP
-            request.setAttribute("getUserName", userNameGetter);
+                 // Définir les attributs pour JSP
+                 request.setAttribute("eventDetails", event);
+                 request.setAttribute("avisList", avisList);
+                 // Créer une instance de l'interface fonctionnelle
+                 UserNameGetter userNameGetter = this::getUserName;
 
-
-            // Transférer vers la JSP des détails de l'événement
+                 // Ajouter la méthode getUserName à la requête pour y accéder depuis la JSP
+                 request.setAttribute("getUserName", userNameGetter);
+             }
+             else {    
+            	 request.setAttribute("user", null);
+}
             request.getRequestDispatcher("Event/eventDetails.jsp").forward(request, response);
 
         } catch (SQLException e) {
@@ -107,9 +113,17 @@ public class AvisServlet extends HttpServlet {
         // Récupérer les détails de l'événement et les avis
         Event event = eventDAO.getEventById(eventId);
         List<Avis> avisList = avisDAO.getAvisByEvent(eventId);
-
+        
+            // Convertir l'image en Base64 si elle existe
+            byte[] pictureData = event.getPicture();
+            if (pictureData != null) {
+                String base64Photo = Base64.getEncoder().encodeToString(pictureData);
+                event.setPictureBase64(base64Photo);
+                request.setAttribute("base64Photo", base64Photo);
+            }
+        
         // Définir les attributs pour JSP
-        request.setAttribute("event", event);
+        request.setAttribute("eventDetails", event);
         request.setAttribute("avisList", avisList);
 
         // Transférer vers la JSP des détails de l'événement
@@ -127,8 +141,21 @@ public class AvisServlet extends HttpServlet {
         Avis avis = new Avis();
         avis.setEvent(event);
         avis.setCommentaire(commentaire);
-        avis.setReactionId(Integer.parseInt(request.getParameter("reactionId")));
+        // Retrieve reactionId parameter
+        String reactionIdParam = request.getParameter("reactionId");
 
+        // Check if reactionIdParam is not empty and is numeric
+        if (reactionIdParam != null && !reactionIdParam.isEmpty() ) {
+            int reactionId = Integer.parseInt(reactionIdParam);
+            avis.setReactionId(reactionId);
+        } else {
+            // Handle the case where reactionIdParam is empty or not numeric
+            // For example, log the error or display a user-friendly message
+            System.err.println("Invalid reactionId: " + reactionIdParam);
+            // You may choose to set a default value or handle the error differently
+        }
+
+        
         // Set the timestamp
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         avis.setTimestamp(timestamp);
@@ -153,13 +180,21 @@ public class AvisServlet extends HttpServlet {
     
     
     private AdminAssociation getAdminAssociationById(int adminId) {
-        return adminAssociationDAO.getAdminAssociationById(adminId);
+        AdminAssociation admin = adminAssociationDAO.getAdminAssociationById(adminId);
+        if (admin == null) {
+            System.out.println("AdminAssociation with ID " + adminId + " not found!");
+        }
+        return admin;
     }
 
     private Benevole getBenevoleById(int benevoleId) {
-        return benevoleDAO.getBenevoleById(benevoleId);
+        Benevole benevole = benevoleDAO.getBenevoleById(benevoleId);
+        if (benevole == null) {
+            System.out.println("Benevole with ID " + benevoleId + " not found!");
+        }
+        return benevole;
     }
-
+    
     private String getUserName(User user) {
         if (user != null) {
             if (user.getRole().equals(User.UserRole.adminassociation)) {

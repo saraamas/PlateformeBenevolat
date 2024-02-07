@@ -81,7 +81,7 @@ public class BenevoleDAOImpl extends UserDAOImpl implements BenevoleDAO {
 
 	@Override
 	public int addBenevole(Benevole benevole) {
-		 final String SQL_INSERT = "INSERT INTO benevole (idUtilisateur, nom, prenom, titreProfessionnel, resume,sexe ,dateNaissance) VALUES ( ?, ?, ?, ?, ?,?)";
+		 final String SQL_INSERT = "INSERT INTO benevole (idUtilisateur, nom, prenom, titreProfessionnel, resume,sexe ,dateNaissance) VALUES ( ?, ?, ?, ?, ?,?,?)";
 
 		    try (Connection connection = daoFactory.getConnection();
 		            // Utilisation de try-with-resources pour garantir la fermeture des ressources
@@ -104,7 +104,7 @@ public class BenevoleDAOImpl extends UserDAOImpl implements BenevoleDAO {
 		        throw new DAOException("Error adding Volunteer to the database", e);
 		    }
 	}
-	
+	@Override
 	public void addAssociationToBenevole(Benevole benevole, AdminAssociation association) {
 	    final String SQL_INSERT_ASSOCIATION = "INSERT INTO Benevole_Association (benevole_id, association_id) VALUES (?, ?)";
 

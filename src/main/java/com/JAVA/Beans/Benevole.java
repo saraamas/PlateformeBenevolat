@@ -137,6 +137,10 @@ public class Benevole extends User{
 	            this.age = 0; // Ou une valeur par défaut appropriée si la date de naissance est null
 	        }
 	    }
+	    ///
+	    public void addAssociation(AdminAssociation association) {
+	        associations.add(association);
+	    }
     
     
 

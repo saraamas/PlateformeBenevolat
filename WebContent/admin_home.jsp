@@ -235,6 +235,15 @@ $(document).ready(function() {
 </script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/components/components.js"></script>
+=======
+    <a href="${pageContext.request.contextPath}/logoutServlet">Déconnexion</a><br>
+    <a href="<%= request.getContextPath() %>/update-adminAssociationProfile.jsp">Profile Settings</a><br>
+    <a href="${pageContext.request.contextPath}/eventServlet?action=create">Créer un nouvel événement</a><br>
+    <a href="eventServlet?action=view">Voir tous les evenements</a><br>
+	<a href="candidatureServlet?action=view">Candidatures</a><br>
+	<a href="${pageContext.request.contextPath}/dashboard">Dashboard</a>
+	
+
 
 </body>
 

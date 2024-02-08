@@ -217,6 +217,33 @@ public class EventDAOImpl implements EventDAO {
         return event;
     }
 
+    @Override
+    public List<Event> getAllEventsForAdmin(int idCreateur) throws DAOException {
+        List<Event> eventsList = new ArrayList<>();
+        final String SQL_SELECT_BY_CREATOR = "SELECT * FROM event WHERE createurId = ?";
+
+        try (
+            Connection connection = daoFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_CREATOR)
+        ) {
+            preparedStatement.setInt(1, idCreateur);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Event event = mapResultSetToEvent(resultSet);
+                    eventsList.add(event);
+                }
+            }
+        } catch (SQLException e) {
+            // Log the exception for debugging
+            e.printStackTrace();
+            throw new DAOException(e);
+        }
+
+        // Log the number of events retrieved for debugging
+        System.out.println("Number of events retrieved for admin with ID " + idCreateur + ": " + eventsList.size());
+
+        return eventsList;
+    }
 
 
 }

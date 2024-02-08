@@ -49,29 +49,29 @@ public class AvisDAOImpl implements AvisDAO {
 
 	@Override
 	public void ajouterAvis(Avis avis) throws SQLException {
-		String SQL_INSERT = "INSERT INTO avis (commentaire, reactionId, userId, eventId , timestamp) VALUES (?, ?, ?, ?)";
-        try (Connection connection = daoFactory.getConnection();
-                PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, avis.getCommentaire());
-            statement.setInt(2, avis.getReactionId());
-            statement.setInt(3, avis.getUser().getIdUtilisateur());
-            statement.setInt(4, avis.getEvent().getIdEvent());
-            statement.setTimestamp(5, new Timestamp(System.currentTimeMillis())); // Set current timestamp
+		String SQL_INSERT = "INSERT INTO avis (commentaire, reactionId, userId, eventId, timestamp) VALUES (?, ?, ?, ?, ?)";
+	    try (Connection connection = daoFactory.getConnection();
+	            PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
+	        statement.setString(1, avis.getCommentaire());
+	        statement.setInt(2, avis.getReactionId());
+	        statement.setInt(3, avis.getUser().getIdUtilisateur());
+	        statement.setInt(4, avis.getEvent().getIdEvent());
+	        statement.setTimestamp(5, avis.getTimestamp());
 
-            int affectedRows = statement.executeUpdate();
+	        int affectedRows = statement.executeUpdate();
 
-            if (affectedRows == 0) {
-                throw new SQLException("Creating avis failed, no rows affected.");
-            }
+	        if (affectedRows == 0) {
+	            throw new SQLException("Creating avis failed, no rows affected.");
+	        }
 
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    avis.setIdAvis(generatedKeys.getInt(1));
-                } else {
-                    throw new SQLException("Creating avis failed, no ID obtained.");
-                }
-            }
-        }
+	        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+	            if (generatedKeys.next()) {
+	                avis.setIdAvis(generatedKeys.getInt(1));
+	            } else {
+	                throw new SQLException("Creating avis failed, no ID obtained.");
+	            }
+	        }
+	    }
 
 	}
 

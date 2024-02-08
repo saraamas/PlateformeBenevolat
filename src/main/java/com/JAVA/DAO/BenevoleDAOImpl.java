@@ -34,36 +34,57 @@ public class BenevoleDAOImpl extends UserDAOImpl implements BenevoleDAO {
             benevole.setDateNaissance(dateNaissance.toLocalDate());
         }
 
-        // Charger les associations du bénévole en utilisant le DAO
-        BenevoleDAOImpl benevoleDAO = new BenevoleDAOImpl(daoFactory);
-        List<AdminAssociation> associations = benevoleDAO.loadAssociations(benevole.getIdUtilisateur());
-        benevole.setAssociations(associations);
+       
         return benevole;
+    }
+    
+    public List<Benevole> loadBenevolesForAssociation(int associationId) {
+        List<Benevole> benevoles = new ArrayList<>();
+
+        final String SQL_SELECT_BENEVOLES_FOR_ASSOCIATION = "SELECT benevole.* " +
+                "FROM benevole " +
+                "JOIN benevole_association ON benevole.idUtilisateur = benevole_association.benevole_id " +
+                "WHERE benevole_association.association_id = ?";
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement preparedStatement = initRequestPrepare(connection, SQL_SELECT_BENEVOLES_FOR_ASSOCIATION, associationId);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Benevole benevole = mapBenevole(resultSet);
+                benevoles.add(benevole);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error loading benevoles for AdminAssociation from the database", e);
+        }
+
+        return benevoles;
     }
 
     @Override
     public List<AdminAssociation> loadAssociations(int benevoleId) {
-    	 List<AdminAssociation> associations = new ArrayList<>();
+    	  List<AdminAssociation> associations = new ArrayList<>();
 
-         final String SQL_SELECT_ASSOCIATIONS = "SELECT adminassociation.* " +
-                 "FROM adminassociation " +
-                 "JOIN Benevole_Association ON adminassociation.idUtilisateur = Benevole_Association.association_id " +
-                 "WHERE Benevole_Association.benevole_id = ?";
+    	    final String SQL_SELECT_ASSOCIATIONS = "SELECT adminassociation.* " +
+    	            "FROM adminassociation " +
+    	            "JOIN benevole_association ON adminassociation.idUtilisateur = benevole_association.association_id " +
+    	            "WHERE benevole_association.benevole_id = ?";
 
-         try (Connection connection = daoFactory.getConnection();
-              PreparedStatement preparedStatement = initRequestPrepare(connection, SQL_SELECT_ASSOCIATIONS, benevoleId);
-              ResultSet resultSet = preparedStatement.executeQuery()) {
+    	    try (Connection connection = daoFactory.getConnection();
+    	         PreparedStatement preparedStatement = initRequestPrepare(connection, SQL_SELECT_ASSOCIATIONS, benevoleId);
+    	         ResultSet resultSet = preparedStatement.executeQuery()) {
 
-             while (resultSet.next()) {
-                 AdminAssociation association = AdminAssociationDAOImpl.mapAdminAssociation(resultSet);
-                 associations.add(association);
-             }
-         } catch (SQLException e) {
-             throw new DAOException("Error loading associations for Benevole from the database", e);
-         }
+    	        while (resultSet.next()) {
+    	            AdminAssociation association = AdminAssociationDAOImpl.mapAdminAssociation(resultSet);
+    	            associations.add(association);
+    	        }
+    	    } catch (SQLException e) {
+    	        throw new DAOException("Error loading associations for Benevole from the database", e);
+    	    }
 
-         return associations;
+    	    return associations;
     }
+    
     private static PreparedStatement initRequestPrepare(Connection connection, String sql, Object... objects)
             throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -104,7 +125,7 @@ public class BenevoleDAOImpl extends UserDAOImpl implements BenevoleDAO {
 		        throw new DAOException("Error adding Volunteer to the database", e);
 		    }
 	}
-	
+	@Override
 	public void addAssociationToBenevole(Benevole benevole, AdminAssociation association) {
 	    final String SQL_INSERT_ASSOCIATION = "INSERT INTO Benevole_Association (benevole_id, association_id) VALUES (?, ?)";
 

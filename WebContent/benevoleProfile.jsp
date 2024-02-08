@@ -23,6 +23,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Volunteer</title>
 
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display" rel="stylesheet">
     <link href='https://cdn.jsdelivr.net/npm/boxicons@1.9.2/css/boxicons.min.css' rel='stylesheet'>
@@ -41,6 +42,26 @@
     box-shadow: none;
     border-color: #39B54A
 }
+
+        <!-- Display Benevole-specific fields -->
+        Nom: ${benevole.nom}<br>
+        Prenom: ${benevole.prenom}<br>
+        Titre Professionnel: ${benevole.titreProfessionnel}<br>
+        Resume: ${benevole.resume}<br>
+        <label for="sexe">Sexe :</label>
+        <input type="text" id="sexe" name="sexe" value="${benevole.sexe}" readonly><br>
+        <label for="dateNaissance">Date de Naissance :</label>
+        <input type="text" id="dateNaissance" name="dateNaissance" value="${benevole.dateNaissance}" readonly><br>
+        <label for="age">Âge :</label>
+        <input type="text" id="age" name="age" value="${benevole.age}" readonly><br>
+	
+        <!-- Display associations -->
+        <h3>Associations</h3>
+        <c:forEach var="association" items="${benevole.associations}">
+            ${association.nom} - ${association.secteurActivite}<br>
+            <!-- Add more fields as needed -->
+        </c:forEach>
+>>>>>>> bd30c91687f1b51e46da976cf32d0e88866f1e70
 
 .profile-button {
     background: #39B54A;

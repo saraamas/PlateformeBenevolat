@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.JAVA.Beans.AdminAssociation;
@@ -33,40 +32,21 @@ public class AdminAssociationDAOImpl extends UserDAOImpl implements AdminAssocia
 	        adminAssociation.setAdresse(resultSet.getString("adresse"));
 	        adminAssociation.setPhone(resultSet.getString("phone"));
 	        adminAssociation.setVille(resultSet.getString("ville"));
-
-	        // Vous pouvez également mapper les colonnes de la table utilisateur si nécessaire
-	        // adminAssociation.setEmail(resultSet.getString("email"));
-	        // adminAssociation.setMotDePasse(resultSet.getString("motDePasse"));
-	        // adminAssociation.setRole(User.UserRole.valueOf(resultSet.getString("role")));
+	        // Chargement des adhérents depuis la base de données
+	        AdminAssociationDAOImpl adminAssociationDAO = new AdminAssociationDAOImpl(daoFactory);
+	        List<Benevole> adherents = adminAssociationDAO.loadBenevoles(adminAssociation.getIdUtilisateur());
+	        // Définition de la liste des adhérents dans l'objet AdminAssociation
+	        adminAssociation.setAdherents(adherents);
 	        
-	        List<Benevole> benevoles = loadBenevoles(adminAssociation.getIdUtilisateur());
-	        adminAssociation.setAdherents(benevoles);
 	        return adminAssociation;
 	    }
 	    
-	    private static List<Benevole> loadBenevoles(int associationId) {
-	        List<Benevole> benevoles = new ArrayList<>();
-
-	        final String SQL_SELECT_BENEVOLES = "SELECT benevole.* " +
-	                "FROM benevole " +
-	                "JOIN Benevole_Association ON benevole.idUtilisateur = Benevole_Association.benevole_id " +
-	                "WHERE Benevole_Association.association_id = ?";
-
-	        try (Connection connection = daoFactory.getConnection();
-	             PreparedStatement preparedStatement = initRequestPrepare(connection, SQL_SELECT_BENEVOLES, associationId);
-	             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-	            while (resultSet.next()) {
-	                Benevole benevole = BenevoleDAOImpl.mapBenevole(resultSet);
-	                benevoles.add(benevole);
-	            }
-	        } catch (SQLException e) {
-	            throw new DAOException("Error loading benevoles for AdminAssociation from the database", e);
-	        }
-
-	        return benevoles;
+	    @Override
+		public List<Benevole> loadBenevoles(int associationId) {
+	    	BenevoleDAO benevoleDAO = new BenevoleDAOImpl(DAOFactory.getInstance());
+	        return benevoleDAO.loadBenevolesForAssociation(associationId);
 	    }
-
+	    
 	    
 	    private static PreparedStatement initRequestPrepare(Connection connection, String sql, Object... objects)
 	            throws SQLException {
@@ -127,15 +107,16 @@ public class AdminAssociationDAOImpl extends UserDAOImpl implements AdminAssocia
 	    }
 	    
 	    @Override
-	    public void addBenevoleToAssociation(AdminAssociation association, Benevole benevole) {
-	        final String SQL_INSERT_ASSOCIATION = "INSERT INTO Benevole_Association (benevole_id, association_id) VALUES (?, ?)";
+	    public boolean addBenevoleToAssociation(AdminAssociation association, Benevole benevole) {
+	        final String SQL_INSERT_ASSOCIATION = "INSERT INTO benevole_association (benevole_id, association_id) VALUES (?, ?)";
 
 	        try (Connection connection = daoFactory.getConnection();
 	             PreparedStatement preparedStatement = initRequestPrepare(connection, SQL_INSERT_ASSOCIATION,
 	                     benevole.getIdUtilisateur(),
 	                     association.getIdUtilisateur())) {
+	        	int rowsAffected = preparedStatement.executeUpdate();
+	            return rowsAffected > 0; // Return true if at least one row was affected (benevole added successfully)
 
-	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
 	            throw new DAOException("Error adding benevole to the association in the database", e);
 	        }

@@ -2,6 +2,7 @@ package com.JAVA.Servlets;
 
 import java.io.IOException;
 
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +31,8 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet("/candidatureServlet")
 public class CandidatureServlet extends HttpServlet {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private CandidatureDAO candidatureDAO;
+    private static final long serialVersionUID = 1L;
+    private CandidatureDAO candidatureDAO;
 
     @Override
     public void init() throws ServletException {
@@ -43,11 +41,8 @@ public class CandidatureServlet extends HttpServlet {
         candidatureDAO = DAOFactory.getInstance().getCandidatureDAO();
         // Création de la liste des notifications si elle n'existe pas encore
         List<String> notifications = new ArrayList<>();
-        
-        // Ajout de la liste des notifications à la session
-        getServletContext().setAttribute("notifications", notifications);
+           }
 
-    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
@@ -71,7 +66,6 @@ public class CandidatureServlet extends HttpServlet {
         }
     }
 
-    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
@@ -89,7 +83,7 @@ public class CandidatureServlet extends HttpServlet {
             }
         }
     }
-    
+
     private void viewNotifications(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupérez les notifications depuis la session ou la portée de requête
         List<String> notifications = (List<String>) request.getSession().getAttribute("notifications");
@@ -99,6 +93,20 @@ public class CandidatureServlet extends HttpServlet {
 
         // Rediriger vers la page d'accueil
         request.getRequestDispatcher("/Candidature/notifications.jsp").forward(request, response);
+    }
+
+    // Ajouter cette méthode à votre servlet
+    private void sendNotificationToBenevole(Benevole benevole, String notificationMessage, PrintWriter out) {
+        // Construire le message de notification
+        String notification = "Notification pour vous, cher(e) " + benevole.getNom() + ": " + notificationMessage;
+
+        // Écrire la notification dans la réponse
+        out.println("<html><body>");
+        out.println("<h1>Notification</h1>");
+        out.println("<p>" + notification + "</p>");
+        out.println("</body></html>");
+
+        // Vous pouvez également enregistrer la notification dans la base de données ou un autre système de stockage pour suivre l'historique des notifications
     }
 
     private void traiterCandidature(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -112,8 +120,19 @@ public class CandidatureServlet extends HttpServlet {
                 // Traiter la candidature
                 ((CandidatureDAOImpl) candidatureDAO).traiterCandidature(candidature, decision);
 
-                // Ajouter la notification avec la date
-                addNotification("Candidature #" + candidatureId + " " + decision, request);
+                // Ajouter la notification avec la date à la session de l'utilisateur
+                addNotificationToSession("Candidature #" + candidatureId + " " + decision, request);
+
+                // Si la décision est "accepte", notifier le bénévole
+                if ("accepte".equals(decision)) {
+                    // Récupérer le bénévole associé à la candidature
+                    Benevole benevole = candidature.getBenevole();
+                    // Récupérer le writer de réponse
+                    PrintWriter out = response.getWriter();
+
+                    // Notifier le bénévole
+                    sendNotificationToBenevole(benevole, "Votre candidature a été acceptée pour l'événement #" + candidature.getEvent().getIdEvent(), out);
+                }
 
                 // Rediriger vers la vue des candidatures
                 request.getRequestDispatcher("/candidatureServlet?action=view").forward(request, response);
@@ -126,28 +145,24 @@ public class CandidatureServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
     }
-    
-    private void addNotification(String notification, HttpServletRequest request) {
-        LocalDateTime now = LocalDateTime.now();
-        String formattedDate = now.toString();
-        String fullNotification = "[" + formattedDate + "] " + notification;
 
-        // Récupération de la liste actuelle des notifications depuis le contexte de l'application
-        List<String> notifications = (List<String>) getServletContext().getAttribute("notifications");
 
-        // Vérification si la liste n'est pas encore créée (ce qui ne devrait pas arriver)
+    // Ajouter la notification à la session de l'utilisateur
+    private void addNotificationToSession(String notification, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        List<String> notifications = (List<String>) session.getAttribute("notifications");
         if (notifications == null) {
             notifications = new ArrayList<>();
-            System.out.println("Notification list was null, creating a new list.");
-
+            session.setAttribute("notifications", notifications);
         }
+        notifications.add(notification);
+    }
 
-        // Ajout de la nouvelle notification
-        notifications.add(fullNotification);
-
-        // Mise à jour de la liste des notifications dans la session
-        request.getSession().setAttribute("notifications", notifications);
-        System.out.println("Notification added: " + fullNotification);
+    // Accéder aux notifications depuis la session de l'utilisateur
+    private List<String> getNotificationsFromSession(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        List<String> notifications = (List<String>) session.getAttribute("notifications");
+        return notifications != null ? notifications : new ArrayList<>();
     }
 
     private void showCandidatureForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -197,10 +212,10 @@ public class CandidatureServlet extends HttpServlet {
         session.setAttribute("user", user);
 
     }
-    
+
     private void deposerCandidature(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-        	// Retrieve form data
+            // Retrieve form data
             String lettreMotivation = request.getParameter("lettreMotivation");
             // Retrieve other form fields as needed
             System.out.println("Lettre de Motivation: " + lettreMotivation);
@@ -216,10 +231,9 @@ public class CandidatureServlet extends HttpServlet {
             Benevole benevole = benevoleDAO.getBenevoleById(benevoleId);
             Event event = eventDAO.getEventById(eventId);
 
-
             // Create a new Candidature object
             Candidature newCandidature = new Candidature();
-            
+
             // Debugging: Print values to console
             System.out.println("lettreMotivation: " + lettreMotivation);
             System.out.println("event: " + event);
@@ -229,12 +243,13 @@ public class CandidatureServlet extends HttpServlet {
             newCandidature.setLettreMotivation(lettreMotivation);
             newCandidature.setEvent(event);
             newCandidature.setBenevole(benevole);
-         // Debugging: Print the new candidature details
+
+            // Debugging: Print the new candidature details
             System.out.println("New Candidature details: " + newCandidature);
-            
+
             // Use CandidatureDAO to save the new candidature
             candidatureDAO.addCandidature(newCandidature);
-            
+
             System.out.println("Candidature added successfully");
 
             // Redirect to the candidature list page or another appropriate page
@@ -246,7 +261,7 @@ public class CandidatureServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
     }
-    
+
     private void viewCandidatures(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             // Retrieve user from the session
@@ -263,8 +278,6 @@ public class CandidatureServlet extends HttpServlet {
                     candidatureList = candidatureDAO.getAllCandidaturesForBenevole(user.getIdUtilisateur());
                     // Set other attributes specific to benevole, if needed
                 }
-                
-                
             }
 
             // Set the candidatureList attribute in the request
@@ -278,8 +291,6 @@ public class CandidatureServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
     }
-
-
 
     // Add other methods for different actions if needed
 

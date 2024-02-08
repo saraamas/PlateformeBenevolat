@@ -10,6 +10,12 @@ public class Avis {
     private Event event;
     private Timestamp timestamp;
     
+    public static final int REACTION_LIKE = 1;
+    public static final int REACTION_LOVE = 2;
+    public static final int REACTION_HAHA = 3;
+    public static final int REACTION_WOW = 4;
+    public static final int REACTION_SAD = 5;
+    public static final int REACTION_ANGRY = 6;
 
 	/**
 	 * @return the timestamp

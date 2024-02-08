@@ -26,7 +26,7 @@ public class Benevole extends User{
     
     @ManyToMany
     @JoinTable(
-        name = "Benevole_Association",
+        name = "benevole_association",
         joinColumns = @JoinColumn(name = "benevole_id"),
         inverseJoinColumns = @JoinColumn(name = "association_id")
     )

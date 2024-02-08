@@ -19,4 +19,9 @@ public interface CandidatureDAO {
 
     List<Candidature> getAllCandidaturesForBenevole(int benevoleId);
 
+
+	int getCandidaturesEnAttenteCount();
+
+	int getCandidaturesAccepteesCountForEvent(int eventId);
+
 }

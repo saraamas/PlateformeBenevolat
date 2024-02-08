@@ -45,17 +45,56 @@ public class CandidatureDAOImpl implements CandidatureDAO {
 	}
 	
 	public void traiterCandidature(Candidature candidature, String decision) {
-		 // Assume que decision peut être "accepte" ou "refuse"
-	    if ("accepte".equals(decision) || "refuse".equals(decision)) {
-	        candidature.changerStatut(decision);
-	        updateCandidature(candidature); // Méthode d'update dans le DAO
-
-
+		// Vérifie si la décision est "accepte"
+	    if ("accepte".equals(decision)) {
+	        System.out.println("La décision est acceptée.");
+	        // Change le statut de la candidature
+	        candidature.changerStatut("accepte");
+	        
+	        // Ajoute le bénévole à l'association
+	        Benevole benevole = candidature.getBenevole();
+	        AdminAssociation association = candidature.getEvent().getAdminAssociation(); // Suppose que l'événement a une association
+	        System.out.println("Tentative d'ajout du bénévole à l'association : " + benevole.getIdUtilisateur() + ", " + association.getIdUtilisateur());
+	        boolean added = adminAssociationDAO.addBenevoleToAssociation(association, benevole);
+	        if (added) {
+	            System.out.println("Bénévole ajouté avec succès à l'association.");
+	        } else {
+	            System.out.println("Erreur lors de l'ajout du bénévole à l'association.");
+	        }
+	    } else if ("refuse".equals(decision)) {
+	        // Change le statut de la candidature
+	        System.out.println("La décision est refusée.");
+	        candidature.changerStatut("refuse");
 	    } else {
 	        // Logique de gestion d'une décision non valide
 	        System.out.println("Décision non valide : " + decision);
+	        return; // Quitte la méthode si la décision n'est pas valide
 	    }
+	    
+	    // Met à jour la candidature dans la base de données
+	    updateCandidature(candidature);
    }
+	
+	
+	@Override
+	public int getCandidaturesEnAttenteCount() {
+	    int pendingCandidaturesCount = 0;
+
+	    try (Connection connection = daoFactory.getConnection();
+	         PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) AS count FROM candidature WHERE statut = ?")) {
+	        statement.setString(1, "en attente");
+
+	        try (ResultSet resultSet = statement.executeQuery()) {
+	            if (resultSet.next()) {
+	                pendingCandidaturesCount = resultSet.getInt("count");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return pendingCandidaturesCount;
+	}
 
 
 
@@ -75,6 +114,26 @@ public class CandidatureDAOImpl implements CandidatureDAO {
 	            e.printStackTrace();
 	        }
 	        return null;
+	}
+	@Override
+	public int getCandidaturesAccepteesCountForEvent(int eventId) {
+	    int acceptedCandidaturesCount = 0;
+
+	    try (Connection connection = daoFactory.getConnection();
+	         PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) AS count FROM candidature WHERE event_id = ? AND statut = ?")) {
+	        statement.setInt(1, eventId);
+	        statement.setString(2, "accepte");
+
+	        try (ResultSet resultSet = statement.executeQuery()) {
+	            if (resultSet.next()) {
+	                acceptedCandidaturesCount = resultSet.getInt("count");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return acceptedCandidaturesCount;
 	}
 
 	@Override

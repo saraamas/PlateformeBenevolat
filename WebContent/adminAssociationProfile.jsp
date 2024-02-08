@@ -38,6 +38,8 @@
         ${adherent.nom} ${adherent.prenom}<br>
         <!-- Add more fields as needed -->
     </c:forEach>
+    
+    
 
 </body>
 </html>

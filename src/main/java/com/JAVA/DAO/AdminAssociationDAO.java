@@ -12,7 +12,8 @@ public interface AdminAssociationDAO extends UserDAO {
     // Additional methods specific to AdminAssociation
     // ...
 	void updateAdminAssociation(AdminAssociation admin) throws DAOException;
-	void addBenevoleToAssociation(AdminAssociation association, Benevole benevole);
+	boolean addBenevoleToAssociation(AdminAssociation association, Benevole benevole);
 	List<Benevole> getAllBenevolesForAssociation(int associationId);
 	void removeBenevoleFromAssociation(AdminAssociation association, Benevole benevole);
+	List<Benevole> loadBenevoles(int associationId);
 }

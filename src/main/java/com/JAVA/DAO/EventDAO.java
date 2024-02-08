@@ -19,6 +19,8 @@ public interface EventDAO {
 
 	Event getEventById(int idEvent) throws DAOException;
 
+	List<Event> getAllEventsForAdmin(int idCreateur) throws DAOException;
+
 }
 
 

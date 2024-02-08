@@ -87,8 +87,11 @@ public class Login extends HttpServlet {
                 adminAssociation.setNom(existingAdminAssociation.getNom());
 
                 System.out.println("AdminAssociation nom: " + adminAssociation.getNom());
-
+                
                 request.setAttribute("userNom", adminAssociation.getNom());
+                
+                session.setAttribute("adminAssociation", existingAdminAssociation);
+
                 //request.setAttribute("userType", "AdminAssociation");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("admin_home.jsp");
                 dispatcher.forward(request, response);

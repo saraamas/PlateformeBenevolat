@@ -145,8 +145,10 @@
                     <td class="border px-4 py-2">${candidature.lettreMotivation}</td>
                     <td class="border px-4 py-2">${candidature.statut}</td>
                     <td class="border px-4 py-2">
-                        <a href="candidatureServlet?action=traiter&candidatureId=${candidature.idCandidature}&decision=accepte" class="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-blue-700">Accepter</a>
+                         <div class="flex space-x-4">
+                        <a href="candidatureServlet?action=traiter&candidatureId=${candidature.idCandidature}&decision=accepte" class="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Accepter</a>
                         <a href="candidatureServlet?action=traiter&candidatureId=${candidature.idCandidature}&decision=refuse" class="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Refuser</a>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>

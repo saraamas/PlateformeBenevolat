@@ -178,7 +178,7 @@
                     <i class="bi bi-person-circle"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/ProfileManaging?action=update">Profile</a>
+                    <a class="dropdown-item" href="ProfileManaging?action=view">Profile</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout</a>
                 </div>
@@ -196,12 +196,13 @@
     </div>
 </nav>
 
+
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" src="data:image/png;base64,${base64Photo}">
-                <span class="font-weight-bold">${benevole.nom}</span>
+                <span class="font-weight-bold">${benevole.nom} ${benevole.prenom}</span>
                 <span class="text-black-50">${user.email}</span>
                 <!-- Change "Edit Details" link to a button -->
                 <a href="${pageContext.request.contextPath}/ProfileManaging?action=update" class="btn btn-success mt-3">Edit Details</a>
@@ -227,14 +228,7 @@
                     <span>${benevole.dateNaissance}</span><br>
                     <label>Âge:</label>
                     <span>${benevole.age}</span><br>
-                    <h3>Associations</h3>
-                    <ul>
-                        <!-- Loop through associations -->
-                        <c:forEach var="association" items="${benevole.associations}">
-                            <li>${association.nom} - ${association.secteurActivite}</li>
-                            <!-- Add more fields as needed -->
-                        </c:forEach>
-                    </ul>
+  
                 </div>
             </div>
         </div>

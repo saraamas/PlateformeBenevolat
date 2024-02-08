@@ -156,7 +156,7 @@
                     <i class="bi bi-person-circle"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/ProfileManaging?action=update">Profile</a>
+                    <a class="dropdown-item" href="ProfileManaging?action=view">Profile</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout</a>
                 </div>
@@ -173,6 +173,7 @@
         </ul>
     </div>
 </nav>
+
 
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">

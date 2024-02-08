@@ -94,7 +94,7 @@
                     <i class="bi bi-person-circle"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/ProfileManaging?action=update">Profile</a>
+                    <a class="dropdown-item" href="ProfileManaging?action=view">Profile</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout</a>
                 </div>
@@ -111,6 +111,7 @@
         </ul>
     </div>
 </nav>
+
 <h2 class="max-w-2xl mx-auto mt-9  text-2xl font-semibold mb-4">My applications</h2>
         
             <ul class="centers-list">

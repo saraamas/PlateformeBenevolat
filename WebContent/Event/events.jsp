@@ -34,184 +34,83 @@
     <div class="container-fluid" id="wrapper">
         <div class="row newsfeed-size">
             <div class="col-md-12 newsfeed-right-side">
-                <nav id="navbar-main" class="navbar navbar-expand-lg shadow-sm sticky-top">
-                    <div class="w-100 justify-content-md-center">
-                        <ul class="nav navbar-nav enable-mobile px-2">
-                            <li class="nav-item">
-                                <button type="button" class="btn nav-link p-0"><img src="assets/images/icons/theme/post-image.png" class="f-nav-icon" alt="Quick make post"></button>
-                            </li>
-                            <li class="nav-item w-100 py-2">
-                                <form class="d-inline form-inline w-100 px-4">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control search-input" placeholder="Search for people, companies, events and more..." aria-label="Search" aria-describedby="search-addon">
-                                        <div class="input-group-append">
-                                            <button class="btn search-button" type="button"><i class='bx bx-search'></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </li>
-                            <li class="nav-item">
-                                <a href="messages.html" class="nav-link nav-icon nav-links message-drop drop-w-tooltip" data-placement="bottom" data-title="Messages">
-                                    <img src="assets/images/icons/navbar/message.png" class="message-dropdown f-nav-icon" alt="navbar icon">
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="navbar-nav mr-5 flex-row" id="main_menu">
-                            <a class="navbar-brand nav-item mr-lg-5" href="index.html"><img src="assets/images/logo-64x64.png" width="40" height="40" class="mr-3" alt="Logo"></a>
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-<form class="w-30 mx-2 my-auto d-inline form-inline mr-5 dropdown search-form" action="eventServlet" method="get">
-    <input type="hidden" name="action" value="search">
-    <div class="input-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="searchDropdown">
-        <label for="searchCategory"></label>
-        <input type="text" class="form-control search-input w-75" placeholder="Search for people, companies, events and more..." aria-label="Search" aria-describedby="search-addon" id="searchCategory" name="searchCategory">
-        <div class="input-group-append">
-            <button class="btn search-button" type="submit">
-                <i class='bx bx-search'></i> <!-- Keep the existing search icon -->
-                <input type="submit" value="search" style="display: none;"> <!-- Add a hidden submit input -->
-            </button>
-        </div>
-    </div>
-</form>
-
-                            <li class="nav-item s-nav dropdown notification">
-                                <a href="#" class="nav-link nav-links rm-drop-mobile drop-w-tooltip" data-toggle="dropdown" data-placement="bottom" data-title="Notifications" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img src="assets/images/icons/navbar/notification.png" class="notification-bell" alt="navbar icon">
-                                </a>
-                                <ul class="dropdown-menu notify-drop dropdown-menu-right nav-drop shadow-sm">
-                                    <div class="notify-drop-title">
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-6 col-xs-6 fs-8">Notifications</div>
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                                <a href="#" class="notify-right-icon">
-                                                    Mark All as Read
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end notify title -->
-                                    <!-- notify content -->
-                                    <div class="drop-content">
-                                        <li>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">
-                                                <div class="notify-img">
-                                                    <img src="assets/images/users/user-10.png" alt="notification user image">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10 col-sm-10 col-xs-10">
-                                                <a href="#" class="notification-user">Sean</a> <span class="notification-type">replied to your comment on a post in </span><a href="#" class="notification-for">PHP</a>
-                                                <a href="#" class="notify-right-icon">
-                                                    <i class='bx bx-radio-circle-marked'></i>
-                                                </a>
-                                                <p class="time">
-                                                    <span class="badge badge-pill badge-primary"><i class='bx bxs-group'></i></span> 3h
-                                                </p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">
-                                                <div class="notify-img">
-                                                    <img src="assets/images/users/user-7.png" alt="notification user image">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10 col-sm-10 col-xs-10">
-                                                <a href="#" class="notification-user">Kimberly</a> <span class="notification-type">likes your comment "I would really... </span>
-                                                <a href="#" class="notify-right-icon">
-                                                    <i class='bx bx-radio-circle-marked'></i>
-                                                </a>
-                                                <p class="time">
-                                                    <span class="badge badge-pill badge-primary"><i class='bx bxs-like'></i></span> 7h
-                                                </p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">
-                                                <div class="notify-img">
-                                                    <img src="assets/images/users/user-8.png" alt="notification user image">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10 col-sm-10 col-xs-10">
-                                                <span class="notification-type">10 people saw your story before it disappeared. See who saw it.</span>
-                                                <a href="#" class="notify-right-icon">
-                                                    <i class='bx bx-radio-circle-marked'></i>
-                                                </a>
-                                                <p class="time">
-                                                    <span class="badge badge-pill badge-primary"><i class='bx bx-images'></i></span> 23h
-                                                </p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">
-                                                <div class="notify-img">
-                                                    <img src="assets/images/users/user-11.png" alt="notification user image">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10 col-sm-10 col-xs-10">
-                                                <a href="#" class="notification-user">Michelle</a> <span class="notification-type">posted in </span><a href="#" class="notification-for">Argon Social Design System</a>
-                                                <a href="#" class="notify-right-icon">
-                                                    <i class='bx bx-radio-circle-marked'></i>
-                                                </a>
-                                                <p class="time">
-                                                    <span class="badge badge-pill badge-primary"><i class='bx bxs-quote-right'></i></span> 1d
-                                                </p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">
-                                                <div class="notify-img">
-                                                    <img src="assets/images/users/user-5.png" alt="notification user image">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10 col-sm-10 col-xs-10">
-                                                <a href="#" class="notification-user">Karen</a> <span class="notification-type">likes your comment "Sure, here... </span>
-                                                <a href="#" class="notify-right-icon">
-                                                    <i class='bx bx-radio-circle-marked'></i>
-                                                </a>
-                                                <p class="time">
-                                                    <span class="badge badge-pill badge-primary"><i class='bx bxs-like'></i></span> 2d
-                                                </p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">
-                                                <div class="notify-img">
-                                                    <img src="assets/images/users/user-12.png" alt="notification user image">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10 col-sm-10 col-xs-10">
-                                                <a href="#" class="notification-user">Irwin</a> <span class="notification-type">posted in </span><a href="#" class="notification-for">Themeforest</a>
-                                                <a href="#" class="notify-right-icon">
-                                                    <i class='bx bx-radio-circle-marked'></i>
-                                                </a>
-                                                <p class="time">
-                                                    <span class="badge badge-pill badge-primary"><i class='bx bxs-quote-right'></i></span> 3d
-                                                </p>
-                                            </div>
-                                        </li>
-                                    </div>
-                                    <div class="notify-drop-footer text-center">
-                                        <a href="#">See More</a>
-                                    </div>
-                                </ul>
-                            </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link nav-links" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <div class="menu-user-image">
-                                    <img src="assets/images/users/user-4.jpg" class="menu-user-img ml-1" alt="Menu Image">
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right nav-drop">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/ProfileManaging?action=view"><i class='bx bx-user mr-2'></i> Account</a>
-                                <div role="separator" class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet"><i class='bx bx-undo mr-2'></i> Logout</a>
-                                <a class="dropdown-item" href="#"><i class='bx bx-undo mr-2'></i> Delete Account</a>
-                            </div>
-                        </li>
-                            <button type="button" class="btn nav-link" id="menu-toggle"><img src="assets/images/icons/theme/navs.png" alt="Navbar navs"></button>
-                        </ul>
-
+<nav id="navbar-main" class="navbar navbar-expand-lg shadow-sm sticky-top">
+    <div class="w-100 justify-content-md-center">
+        <ul class="nav navbar-nav enable-mobile px-2">
+            <!-- Quick make post button -->
+            <li class="nav-item">
+                <button type="button" class="btn nav-link p-0" data-toggle="tooltip" title="Make Post"><i class="bi bi-camera-fill f-nav-icon"></i></button>
+            </li>
+            <!-- Search form -->
+            <li class="nav-item w-100 py-2">
+                <form class="d-inline form-inline w-100 px-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control search-input" placeholder="Search for people, companies, events and more..." aria-label="Search" aria-describedby="search-addon">
+                        <div class="input-group-append">
+                            <button class="btn search-button" type="button"><i class='bx bx-search'></i></button>
+                        </div>
                     </div>
+                </form>
+            </li>
+            <!-- Messages -->
+            <li class="nav-item">
+                <a href="messages.html" class="nav-link nav-icon nav-links message-drop drop-w-tooltip" data-placement="bottom" title="Messages">
+                    <i class="bi bi-chat-dots-fill message-dropdown f-nav-icon"></i>
+                </a>
+            </li>
+        </ul>
+        <!-- Main menu -->
+        <ul class="navbar-nav mr-5 flex-row" id="main_menu">
+            <!-- Logo -->
+            <a class="navbar-brand nav-item mr-lg-5" href="benevole_home.jsp"><img src="assets/images/logo-64x64.png" width="60" height="60" class="mr-3" alt="Logo" style="margin-left:60px;"></a>
+            <!-- Search form for events -->
+            <form class="w-30 mx-2 my-auto d-inline form-inline mr-5 dropdown search-form" action="eventServlet" method="get">
+                <input type="hidden" name="action" value="search">
+                <div class="input-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="searchDropdown">
+                    <label for="searchCategory"></label>
+                    <input type="text" class="form-control search-input w-75" placeholder="Search for people, companies, events and more..." aria-label="Search" aria-describedby="search-addon" id="searchCategory" name="searchCategory">
+                    <div class="input-group-append">
+                        <button class="btn search-button" type="submit">
+                            <i class='bx bx-search'></i>
+                            <input type="submit" value="search" style="display: none;">
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- Notifications -->
+            <li class="nav-item s-nav dropdown notification">
+                <a href="#" class="nav-link nav-links rm-drop-mobile drop-w-tooltip" data-toggle="dropdown" title="Notifications" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="bi bi-bell-fill notification-bell"></i>
+                </a>
+                <ul class="dropdown-menu notify-drop dropdown-menu-right nav-drop shadow-sm">
+                    <!-- Notification content -->
 
-                </nav>
+                </ul>
+            </li>
+            <!-- Profile -->
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0 dropdown">
+                <a href="#" class="sidebar-item dropdown-toggle" role="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Profile">
+                    <i class="bi bi-person-circle"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/ProfileManaging?action=update">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout</a>
+                </div>
+            </li>
+            <!-- Events -->
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+                <a href="eventServlet?action=view" class="sidebar-item" title="Events"><i class="bi bi-calendar3"></i> </a>
+            </li>
+            <!-- My Volunteer Applications -->
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+                <a href="candidatureServlet?action=view" class="sidebar-item" title="Applications"><i class="bi bi-journal-check"></i> </a>
+            </li>
+            <!-- Additional list items go here -->
+        </ul>
+    </div>
+</nav>
+
                 <div class="row newsfeed-right-side-content d-flex justify-content-center mt-3">
                    
                     <div class="col-md-6 second-section" id="page-content-wrapper">

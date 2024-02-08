@@ -1,15 +1,14 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.JAVA.Beans.AdminAssociation" %>
 <%@ page import="com.JAVA.Beans.Benevole" %>
+
+<%@ page import="com.JAVA.Beans.User" %>
+<%@ page import="com.JAVA.DAO.AdminAssociationDAO" %>
+<%@ page import="com.JAVA.DAO.AdminAssociationDAOImpl" %>
+<%@ page import="com.JAVA.DAO.DAOFactory" %>
 <%@ page import="java.util.Base64" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>AdminAssociation Profile</title>
-</head>
-<body>
-
+<%
+    User user = (User) session.getAttribute("user");
 
     if (user != null && user.getRole().equals(User.UserRole.adminassociation)) {
         AdminAssociationDAO adminAssociationDAO = new AdminAssociationDAOImpl(DAOFactory.getInstance());
@@ -276,6 +275,3 @@
     <script src="assets/js/app.js"></script>
     <script src="assets/js/components/components.js"></script>
     <script type="text/javascript">
-
-</body>
-</html>

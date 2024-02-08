@@ -19,6 +19,7 @@
     <a href="${pageContext.request.contextPath}/eventServlet?action=create">Créer un nouvel événement</a><br>
     <a href="eventServlet?action=view">Voir tous les evenements</a><br>
 	<a href="candidatureServlet?action=view">Candidatures</a><br>
+	<a href="${pageContext.request.contextPath}/dashboard">Dashboard</a>
 	
 
 </body>

@@ -115,6 +115,7 @@ public class AdminAssociation extends User{
 	}
 	//
 	public List<Benevole> getAdherents() {
+        
         return adherents;
     }
 
@@ -122,6 +123,9 @@ public class AdminAssociation extends User{
         this.adherents = adherents;
     }
 
+    public void addAdherent(Benevole benevole) {
+        adherents.add(benevole);
+    }
 
     
 }

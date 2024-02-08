@@ -26,7 +26,7 @@ public class Benevole extends User{
     
     @ManyToMany
     @JoinTable(
-        name = "Benevole_Association",
+        name = "benevole_association",
         joinColumns = @JoinColumn(name = "benevole_id"),
         inverseJoinColumns = @JoinColumn(name = "association_id")
     )
@@ -136,6 +136,10 @@ public class Benevole extends User{
 	        } else {
 	            this.age = 0; // Ou une valeur par défaut appropriée si la date de naissance est null
 	        }
+	    }
+	    ///
+	    public void addAssociation(AdminAssociation association) {
+	        associations.add(association);
 	    }
     
     

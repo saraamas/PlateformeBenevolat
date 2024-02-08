@@ -38,7 +38,7 @@
         <input type="text" id="dateNaissance" name="dateNaissance" value="${benevole.dateNaissance}" readonly><br>
         <label for="age">Âge :</label>
         <input type="text" id="age" name="age" value="${benevole.age}" readonly><br>
-
+	
         <!-- Display associations -->
         <h3>Associations</h3>
         <c:forEach var="association" items="${benevole.associations}">

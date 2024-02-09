@@ -16,7 +16,7 @@
     }
 
     /* Style pour la réaction */
-    .reaction {
+    .user-name {
         font-weight: bold; /* Texte en gras */
         color: #365899; /* Couleur bleue similaire à Facebook */
     }
@@ -67,22 +67,12 @@
     <!-- Formulaire pour ajouter un nouvel avis -->
 	<form action="AvisServlet" method="post" class="add-comment-form">
 	    <input type="hidden" name="action" value="addAvis">
-	    <input type="hidden" name="eventId" value="${event.idEvent}">
+	    <input type="hidden" name="eventId" value="${eventDetails.idEvent}">
 	
 	    <label for="commentaire">Commentaire:</label>
 	    <textarea name="commentaire" id="commentaire" required></textarea>
 	
-	   <label for="reactionId">Réaction:</label>
-    <select name="reactionId" id="reactionId" required>
-        <option value="">Sélectionner une réaction</option> <!-- Option vide pour forcer la sélection -->
-        <option value="${Avis.REACTION_LIKE}">Like</option>
-        <option value="${Avis.REACTION_LOVE}">Love</option>
-        <option value="${Avis.REACTION_HAHA}">Haha</option>
-        <option value="${Avis.REACTION_WOW}">Wow</option>
-        <option value="${Avis.REACTION_SAD}">Sad</option>
-        <option value="${Avis.REACTION_ANGRY}">Angry</option>
-        <!-- Ajoutez d'autres options si nécessaire -->
-    </select>
+	 
 	
 	    <input type="submit" value="Ajouter Avis">
 	</form>
@@ -90,9 +80,9 @@
     <!-- Afficher la liste des avis -->
 <c:forEach var="avis" items="${avisList}">
     <div class="comment-box">
-        <p>
-            <span class="reaction">${avis.reactionId}</span> <!-- Affichage de la réaction -->
-            <span class="timestamp">${avis.timestamp}</span> <!-- Affichage du timestamp -->
+        <p>	            
+        	<span class="user-name">${userName}</span> <!-- Affichage du nom d'utilisateur -->
+            <span class="timestamp">${avis.timestamp}</span><!-- Affichage du timestamp -->
         </p>
         <p>${avis.commentaire}</p> <!-- Affichage du commentaire -->
     </div>

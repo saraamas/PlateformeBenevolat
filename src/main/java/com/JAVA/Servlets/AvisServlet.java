@@ -69,11 +69,10 @@ public class AvisServlet extends HttpServlet {
                  // Définir les attributs pour JSP
                  request.setAttribute("eventDetails", event);
                  request.setAttribute("avisList", avisList);
-                 // Créer une instance de l'interface fonctionnelle
-                 UserNameGetter userNameGetter = this::getUserName;
-
-                 // Ajouter la méthode getUserName à la requête pour y accéder depuis la JSP
-                 request.setAttribute("getUserName", userNameGetter);
+                 // Boucle forEach pour itérer sur la liste des avis et définir le nom d'utilisateur pour chaque avis
+                 for (Avis avis : avisList) {
+                     request.setAttribute("userName", getUserName(avis.getUser()));
+                 }
              }
              else {    
             	 request.setAttribute("user", null);

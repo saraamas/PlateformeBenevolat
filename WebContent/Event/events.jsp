@@ -28,6 +28,12 @@
     <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js" type="text/javascript"></script>
     <script src="assets/js/load.js" type="text/javascript"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Add your custom styles here */
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: green !important;
+        }
+    </style>
 </head>
 
 <body class="newsfeed">
@@ -129,7 +135,7 @@
                                     <img src="assets/images/users/placeholder-image.jpg" alt="Online user" class="mr-3 post-user-image">
                                     <div class="media-body pb-3 mb-0 small lh-125">
                                         <div class="d-flex justify-content-between align-items-center w-100">
-                                            <a href="#" class="text-gray-dark post-user-name">${event.adminAssociation.nom}</a>
+                                            <a href="${pageContext.request.contextPath}/ProfileManaging?action=view&userIdToShow=${event.adminAssociation.idUtilisateur}" class="text-gray-dark post-user-name">${event.adminAssociation.nom}</a>
                                             <div class="dropdown">
                                                 <a href="#" class="post-more-settings" role="button" data-toggle="dropdown" id="postOptions" aria-haspopup="true" aria-expanded="false">
                                                     <i class='bx bx-dots-horizontal-rounded'></i>

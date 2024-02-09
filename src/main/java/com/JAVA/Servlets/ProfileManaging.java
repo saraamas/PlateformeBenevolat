@@ -118,11 +118,17 @@ public class ProfileManaging extends HttpServlet {
         // Add logic to set attributes for the view
 		if (userProfile.getRole() == User.UserRole.adminassociation) {
 		    AdminAssociation admin = adminAssociationDAO.getAdminAssociationById(userIdToShow);
+		    User user=userDAO.getUserById(admin.getIdUtilisateur());
 		    request.setAttribute("admin", admin);
+		    request.setAttribute("user", user);
+
 		    request.getRequestDispatcher("adminAssociationProfile.jsp").forward(request, response);
 		} else if (userProfile.getRole() == User.UserRole.benevole) {
 		    Benevole benevole = benevoleDAO.getBenevoleById(userIdToShow);
+		    User user=userDAO.getUserById(benevole.getIdUtilisateur());
 		    request.setAttribute("benevole", benevole);
+		    request.setAttribute("user", user);
+
 		    request.getRequestDispatcher("benevoleProfile.jsp").forward(request, response);
 		} else {
 		    // Handle other user roles if needed

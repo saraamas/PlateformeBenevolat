@@ -153,52 +153,66 @@
     
     
             <!-- 1.Création d'une pie chart pour le nombre de bénévoles par sexe -->
+<div class="row">
     
-    <div style=" display: grid; place-items: center;">   
-        <h2 style="place-items: center;" class="text-xl font-bold mb-4">Volunteers by gender </h2>
-        <div id="chartContainer"  style="width: 800px; height: 600px; background-color:white; padding:20px; border-radius:10px;margin-bottom:20px;">
-            <canvas id="genderChart" width="600" height="400" ></canvas>
+     <div class="col-md-4">
+        <h2 class="text-xl font-bold mb-4" style="margin-left:20px;">Volunteers by gender </h2>
+        <div id="chartContainer" style="width: 100%; height: 400px; background-color:; padding:20px; border-radius:10px;margin-bottom:20px;">
+            <canvas id="genderChart" width="600" height="400"></canvas>
         </div>
-    </div>  
-		    <script>
-		
-			// Création d'un graphique en secteurs (pie chart) pour représenter les données de maleCount et femaleCount
-		    var ctx = document.getElementById('genderChart').getContext('2d');
-		    var genderChart = new Chart(ctx, {
-		        type: 'pie',
-		        data: {
-		            labels: ['Homme', 'Femme'],
-		            datasets: [{
-		                label: 'Répartition par sexe',
-		                data: [${maleCount}, ${femaleCount}],
-		                backgroundColor: ['rgba(64, 145, 108,0.5)', 'rgba(149, 213, 178,0.5)'],
-		                borderColor: ['rgba(64, 145, 108,1)', 'rgba(149, 213, 178,1)'],
-		                borderWidth: 1
-		            }]
-		        },
-		        options: {
-		            scales: {
-		                y: {
-		                    beginAtZero: true
-		                }
-		            }
-		        }
-		    });
-		</script>
+    </div>
 
     <!-- 2- Evénements et du nombre de candidatures acceptées pour chaque événement (Pie chart) -->
     
-    <div style=" display: grid; place-items: center;">   
-        <h2 style="place-items: center;" class="text-xl font-bold mb-4">Events by number of volunteers </h2>
-        <div id="chartContainer"  style="width: 800px; height: 600px; background-color:white; padding:20px; border-radius:10px;margin-bottom:20px;">
-            <canvas id="eventsChart" width="600" height="400" ></canvas>
+    <div class="col-md-4">
+        <h2 class="text-xl font-bold mb-4">Events by number of volunteers </h2>
+        <div id="chartContainer" style="width: 100%;background-color:; height: 400px;padding:20px; border-radius:10px;margin-bottom:20px;">
+            <canvas id="eventsChart" width="600" height="400"></canvas>
         </div>
-    </div>  
-	<script>
-	//Récupération des données des événements et des candidatures acceptées depuis les attributs de la requête
-	var eventsData = ${eventsDataJson};
+    </div>
+
 	
-	// Création des listes pour les titres des événements et le nombre de candidatures acceptées
+		 <!-- 3- Affichage des événements par categorie -->
+		 
+	 <div class="col-md-4">
+	        <h2 class="text-xl font-bold mb-4">Events by category</h2>
+	        <div id="chartContainer" style="width: 100%; height: 400px; background-color:; padding:20px; border-radius:10px;margin-bottom:20px;">
+	            <canvas id="eventsByCategoryChart" width="600" height="400"></canvas>
+	        </div>
+	    </div> 
+  </div>  
+    
+    <!-- le Script -->
+    <script>
+
+	//1-- Création d'un graphique en secteurs (pie chart) pour représenter les données de maleCount et femaleCount
+    var ctx = document.getElementById('genderChart').getContext('2d');
+    var genderChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Homme', 'Femme'],
+            datasets: [{
+                label: 'Répartition par sexe',
+                data: [${maleCount}, ${femaleCount}],
+                backgroundColor: ['rgba(64, 145, 108,0.5)', 'rgba(149, 213, 178,0.5)'],
+                borderColor: ['rgba(64, 145, 108,1)', 'rgba(149, 213, 178,1)'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    display: false // Supprimer les lignes horizontales
+
+                }
+            }
+        }
+    });
+    //2--Chart events
+    //Récupération des données des événements et des candidatures acceptées depuis les attributs de la requête
+	var eventsData = ${eventsDataJson};
+ 	// Création des listes pour les titres des événements et le nombre de candidatures acceptées
 	var eventTitles = [];
 	var candidaturesAccepteesCount = [];
 	
@@ -230,18 +244,8 @@
 	        }
 	    }
 	});
-	</script>
-		 <!-- 3- Affichage des événements par categorie -->
-		 
-		 <div style=" display: grid; place-items: center;">   
-        <h2 style="place-items: center;" class="text-xl font-bold mb-4">Evénementts par catégorie</h2>
-        <div id="chartContainer"  style="width: 800px; height: 600px; background-color:white; padding:20px; border-radius:10px;margin-bottom:20px;">
-            <canvas id="eventsByCategoryChart" width="600" height="400" ></canvas>
-        </div>
-    </div>  
     
-    
-    <script>
+    //3--
     var ctx = document.getElementById('eventsByCategoryChart').getContext('2d');
     var eventsByCategoryChart = new Chart(ctx, {
         type: 'bar',
